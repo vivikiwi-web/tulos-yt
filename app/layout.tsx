@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 import "./globals.css";
 
-const raleway = Raleway({ subsets: ["latin"] });
+const raleway = Raleway({ subsets: ["latin"], variable: "--font-raleway", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Tulos Ecommerce App for shopping",
@@ -22,7 +22,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${raleway.className} antialiased`}
+          className={`${raleway.variable} antialiased`}
         >
           <Header />
           {children}
