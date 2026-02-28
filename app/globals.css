@@ -137,4 +137,8 @@ body {
 	.hoverEffect {
 		@apply transition-all ease-in-out duration-300;
 	}
+
+	.productTab {
+		@apply border border-darkColor px-4 py-1.5 md:px-6 md:py-2 rounded-full transition-all ease-in-out duration-300 hover:bg-darkColor hover:text-white cursor-pointer;
+	}
 }
