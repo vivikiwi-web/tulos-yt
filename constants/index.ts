@@ -2,12 +2,11 @@ import { MapPin, Phone } from 'lucide-react';
 
 export const headerData = [
 	{ title: 'Home', href: '/' },
-	{ title: 'Men', href: '/men' },
-	{ title: 'Women', href: '/women' },
-	{ title: 'Kids', href: '/kids' },
-	{ title: 'New', href: '/new' },
-	{ title: 'Featured', href: '/featured' },
-	{ title: 'Gift', href: '/gift' },
+	{ title: 'Men', href: '/category/men' },
+	{ title: 'Women', href: '/category/women' },
+	{ title: 'New', href: '/category/new' },
+	{ title: 'Featured', href: '/category/featured' },
+	{ title: 'Gift', href: '/category/gift' },
 ];
 
 export const productType = [
@@ -27,13 +26,11 @@ export const quickLinksData = [
 ];
 
 export const categoriesData = [
-	{ title: "Men's Fashion", href: '/men' },
-	{ title: "Women's Fashion", href: '/women' },
-	{ title: 'Kids corner', href: '/kids' },
-	{ title: 'Tshirt', href: '/t-shirt' },
-	{ title: 'Accessories', href: '/accessories' },
-	{ title: 'Household', href: '/household' },
-	{ title: 'Others', href: '/others' },
+	{ title: "Men's Fashion", href: '/category/men' },
+	{ title: "Women's Fashion", href: '/category/women' },
+	{ title: 'Tshirt', href: '/category/t-shirt' },
+	{ title: 'Accessories', href: '/category/accessories' },
+	{ title: 'Featured', href: '/category/featured' },
 ];
 
 export const faqsData = [
