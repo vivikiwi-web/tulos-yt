@@ -19,9 +19,10 @@ import AddToCartButton from "./AddToCartButton";
 
 const SearchBar = () => {
 	const [search, setSearch] = useState("");
-	const [products, setProducts] = useState([]);
+	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
+
 	const fetchProducts = useCallback(async () => {
 		if (!search) {
 			setProducts([]);
