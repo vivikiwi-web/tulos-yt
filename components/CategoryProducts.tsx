@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "./ui/button";
-import { Category, Product } from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
-import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
+import { Button } from "./ui/button";
+import { client } from "@/sanity/lib/client";
 import ProductCard from "./ProductCard";
 import ProductSkeleton from "./ProductSkeleton";
 import NoProductsAvailable from "./NoProductsAvailable";
+import { Category, Product } from "@/sanity.types";
 
 interface Props {
 	categories: Category[];
@@ -16,10 +16,15 @@ interface Props {
 }
 
 const CategoryProducts = ({ categories, slug }: Props) => {
-	const [currentSlug, setCurrentSlug] = useState(slug);
-	const [products, setProducts] = useState([]); // Replace 'any' with your product type
+	const router = useRouter();
+	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(false);
 	const skeletonCount = products.length || 8;
+
+	const handleCategoryClick = (categorySlug: string) => {
+		if (categorySlug === slug) return;
+		router.push(`/category/${categorySlug}`);
+	};
 
 	const fetchProductsByCategory = async (categorySlug: string) => {
 		setLoading(true);
@@ -36,10 +41,10 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 	}
 
 	useEffect(() => {
-		if (currentSlug) {
-			fetchProductsByCategory(currentSlug);
+		if (slug) {
+			fetchProductsByCategory(slug);
 		}
-	}, [currentSlug]);
+	}, [slug]);
 
 	return (
 		<div className="py-5 flex flex-col md:flex-row items-start gap-5">
@@ -47,8 +52,8 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 				{categories.map((category) => (
 					<Button
 						key={category._id}
-						className={`bg-transparent border-0 rounded-none cursor-pointer text-darkColor shadow-none hover:bg-darkColor/80 hover:text-white font-semibold hoverEffect border-b last:border-b-0 ${category?.slug?.current === currentSlug && "bg-darkColor text-white border-darkColor"}`}
-						onClick={() => setCurrentSlug(category?.slug?.current as string)}
+						className={`bg-transparent border-0 rounded-none cursor-pointer text-darkColor shadow-none hover:bg-darkColor/80 hover:text-white font-semibold hoverEffect border-b last:border-b-0 ${category?.slug?.current === slug && "bg-darkColor text-white border-darkColor"}`}
+						onClick={() => handleCategoryClick(category?.slug?.current as string)}
 					>
 						{category.title}
 					</Button>
@@ -80,7 +85,7 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 							</div>
 						) : (
 							<NoProductsAvailable
-								selectedTab={currentSlug}
+								selectedTab={slug}
 								className="mt-0 w-full"
 							/>
 						)}
