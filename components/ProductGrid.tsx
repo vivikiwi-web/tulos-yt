@@ -8,6 +8,7 @@ import { Product } from '@/sanity.types';
 import ProductCard from './ProductCard';
 import NoProductsAvailable from './NoProductsAvailable';
 import ProductSkeleton from './ProductSkeleton';
+import { AnimatePresence, motion } from 'motion/react';
 
 const ProductGrid = () => {
 	const [selectedTab, setSelectedTab] = useState<string>(productType[0]?.value || "");
@@ -16,7 +17,7 @@ const ProductGrid = () => {
 	// *[_type == 'product' && variant == 'jacket'] | order(name asc)
 	const query = `*[_type == "product" && variant == $variant] | order(name asc)`;
 	const params = { variant: selectedTab.toLocaleLowerCase() };
-	const skeletonCount = products.length || 8;
+	const skeletonCount = products.length || 4;
 
 	// Fetch products based on selected tab
 	useEffect(() => {
@@ -50,7 +51,15 @@ const ProductGrid = () => {
 				products.length > 0 ? (
 					<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10 w-full">
 						{products.map((product) => (
-							<ProductCard key={product._id} product={product} />
+							<AnimatePresence key={product._id} >
+								<motion.div
+									initial={{ opacity: 0.2 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+								>
+									<ProductCard product={product} />
+								</motion.div>
+							</AnimatePresence>
 						))}
 					</div>
 				) : (
