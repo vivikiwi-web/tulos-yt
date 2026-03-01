@@ -3,6 +3,8 @@ import { Button } from "./ui/button";
 import { Product } from "@/sanity.types";
 import PriceFormatter from "./PriceFormatter";
 import QuantityButtons from "./QuantityButtons";
+import useCartStore from "@/store";
+import toast from "react-hot-toast";
 
 interface Props {
 	product: Product;
@@ -10,8 +12,14 @@ interface Props {
 }
 
 const AddToCartButton = ({ product, className }: Props) => {
-	const itemCount = 0; // Replace with actual item count from cart state
+	const { addItem, getItemCount } = useCartStore();
+	const itemCount = getItemCount(product._id);
 	const isOutOfStock = product?.stock === 0;
+
+	const handleAddProduct = () => {
+		addItem(product);
+		toast.success(`${product?.name?.substring(0, 20)}... added to cart`);
+	}
 
 	return (
 
@@ -35,6 +43,7 @@ const AddToCartButton = ({ product, className }: Props) => {
 					className={
 						cn(
 							"w-full bg-transparent text-darkColor cursor-pointer shadow-none border border-darkColor/30 font-semibold tracking-wide hover:text-white hoverEffect", className)}
+					onClick={handleAddProduct}
 				>
 					Add to cart
 				</Button>
