@@ -52,7 +52,7 @@ const SearchBar = () => {
 			<DialogTrigger onClick={() => setShowSearch(!showSearch)}>
 				<Search className="w-5 h-5 hover:text-darkColor hoverEffect" />
 			</DialogTrigger>
-			<DialogContent className="max-w-5xl min-h-[90vh] max-h-[90vh] flex flex-col overflow-hidden">
+			<DialogContent className="w-full lg:max-w-5xl min-h-[90vh] max-h-[90vh] flex flex-col overflow-hidden">
 				<DialogHeader>
 					<DialogTitle className="mb-1">Product Searchbar</DialogTitle>
 					<form className="relative" onSubmit={(e) => e.preventDefault()}>
