@@ -207,3 +207,78 @@ export type AllSanitySchemaTypes =
 	| Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
+
+// Source: sanity/helpers/queries.ts
+// Variable: CATEGORIES_QUERY
+// Query: *[_type=="category"] | order(title asc)
+export type CATEGORIES_QUERY_RESULT = Array<{
+	_id: string;
+	_type: 'category';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	title?: string;
+	slug?: Slug;
+	description?: string;
+	image?: {
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+		};
+		media?: unknown;
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
+	};
+}>;
+
+// Source: sanity/helpers/queries.ts
+// Variable: PRODUCT_BY_SLUG_QUERY
+// Query: *[_type=="product" && slug.current == $slug][0]
+export type PRODUCT_BY_SLUG_QUERY_RESULT = {
+	_id: string;
+	_type: 'product';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	name?: string;
+	slug?: Slug;
+	intro?: string;
+	description?: string;
+	price?: number;
+	discount?: number;
+	stock?: number;
+	category?: Array<{
+		_ref: string;
+		_type: 'reference';
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: 'category';
+	}>;
+	status?: 'hot' | 'new' | 'sale';
+	variant?: 'hoodie' | 'jacket' | 'other' | 'pants' | 'shorts' | 'tshirt';
+	images?: Array<{
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+		};
+		media?: unknown;
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
+		_key: string;
+	}>;
+} | null;
+
+// Query TypeMap
+import '@sanity/client';
+declare module '@sanity/client' {
+	interface SanityQueries {
+		'*[_type=="category"] | order(title asc)': CATEGORIES_QUERY_RESULT;
+		'*[_type=="product" && slug.current == $slug][0]': PRODUCT_BY_SLUG_QUERY_RESULT;
+	}
+}
