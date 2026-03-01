@@ -1,18 +1,19 @@
-import { FC, use } from "react";
+import { FC } from "react";
 import { motion } from "motion/react"
 import Logo from "./Logo";
 import { X } from "lucide-react";
-import { headerData } from "@/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import SocialMedia from "./SocialMedia";
+import { Category } from "@/sanity.types";
 
 interface SidebarProps {
 	isOpen: boolean;
 	onClose: () => void;
+	categories?: Category[];
 }
 
-const Sidebar: FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: FC<SidebarProps> = ({ isOpen, onClose, categories }) => {
 	const pathname = usePathname();
 	return (
 		<>
@@ -28,14 +29,14 @@ const Sidebar: FC<SidebarProps> = ({ isOpen, onClose }) => {
 					<button onClick={onClose} className="cursor-pointer"><X /></button>
 				</div>
 				<div className='flex flex-col gap-3.5 text-base capitalize font-semibold tracking-wide'>
-					{headerData.map(item => (
+					{categories?.map(category => (
 						<Link
 							onClick={onClose}
-							key={item?.title}
-							href={item?.href}
-							className={`hover:text-white hoverEffect cursor-pointer ${pathname === item?.href ? 'text-white' : ''}`}
+							key={category?._id}
+							href={`/category/${category?.slug?.current}`}
+							className={`hover:text-white hoverEffect cursor-pointer ${pathname === `/category/${category?.slug?.current}` ? 'text-white' : ''}`}
 						>
-							{item?.title}
+							{category?.title}
 						</Link>
 					))}
 				</div>

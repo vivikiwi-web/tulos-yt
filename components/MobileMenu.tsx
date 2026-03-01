@@ -2,9 +2,14 @@
 
 import { useState } from "react"
 import { AlignLeft } from "lucide-react"
+import { Category } from '@/sanity.types';
 import Sidebar from "./Sidebar"
 
-const MobileMenu = () => {
+type Props = {
+	categories?: Category[];
+}
+
+const MobileMenu = ({ categories }: Props) => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
 	const toggleSidebar = () => {
@@ -18,7 +23,7 @@ const MobileMenu = () => {
 				<AlignLeft className="hover:text-darkColor hoverEffect md:hidden cursor-pointer" onClick={toggleSidebar} />
 			</div>
 			<div>
-				<Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+				<Sidebar categories={categories} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 			</div>
 		</>
 	)

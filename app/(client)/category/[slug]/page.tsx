@@ -7,13 +7,13 @@ const CategoryPage = async ({ params }: { params: Promise<{ slug: string }> }) =
 	const { slug } = await params;
 	const categories = await getAllCategoriesQuery();
 
-	// console.log('Fetched slug:', slug);
-	// console.log('Fetched categories:', categories);
-
 	return (
 		<Container className="py-10">
 			<Title className="text-xl">
-				Products by Category
+				Products by Category: {" "}
+				<span className="font-bold text-green-600 capitalize tracking-wide">
+					{slug && slug}
+				</span>
 			</Title>
 			<CategoryProducts categories={categories} slug={slug} />
 		</Container>

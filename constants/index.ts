@@ -1,14 +1,5 @@
 import { MapPin, Phone } from 'lucide-react';
 
-export const headerData = [
-	{ title: 'Home', href: '/' },
-	{ title: 'Men', href: '/category/men' },
-	{ title: 'Women', href: '/category/women' },
-	{ title: 'New', href: '/category/new' },
-	{ title: 'Featured', href: '/category/featured' },
-	{ title: 'Gift', href: '/category/gift' },
-];
-
 export const productType = [
 	{ title: 'Tshirt', value: 'tshirt' },
 	{ title: 'Jacket', value: 'jacket' },
@@ -23,14 +14,6 @@ export const quickLinksData = [
 	{ title: 'Terms & Conditions', href: '/terms' },
 	{ title: 'Privacy Policy', href: '/privacy' },
 	{ title: 'FAQs', href: '/faqs' },
-];
-
-export const categoriesData = [
-	{ title: "Men's Fashion", href: '/category/men' },
-	{ title: "Women's Fashion", href: '/category/women' },
-	{ title: 'Tshirt', href: '/category/t-shirt' },
-	{ title: 'Accessories', href: '/category/accessories' },
-	{ title: 'Featured', href: '/category/featured' },
 ];
 
 export const faqsData = [

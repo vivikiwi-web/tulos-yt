@@ -4,9 +4,13 @@ import Logo from './Logo';
 import SocialMedia from './SocialMedia';
 import Link from 'next/link';
 import FooterTop from './FooterTop';
-import { categoriesData, quickLinksData } from '@/constants';
+import { quickLinksData } from '@/constants';
+import { getAllCategoriesQuery } from '@/sanity/helpers/queries';
+import { Category } from '@/sanity.types';
 
-const Footer = () => {
+const Footer = async () => {
+	const categories: Category[] = await getAllCategoriesQuery();
+
 	return (
 		<footer className="bg-white border-t">
 			<Container>
@@ -41,13 +45,13 @@ const Footer = () => {
 					<div>
 						<h3 className="font-semibold text-darkColor mb-4">Categories</h3>
 						<div className="flex flex-col gap-3">
-							{categoriesData?.map((item) => (
+							{categories?.map((category) => (
 								<Link
-									key={item?.title}
-									href={`/category${item?.href}`}
+									key={category?._id}
+									href={`/category/${category?.slug?.current}`}
 									className="text-gray-600 hover:text-darkColor text-sm font-medium hoverEffect"
 								>
-									{item?.title}
+									{category?.title}
 								</Link>
 							))}
 						</div>

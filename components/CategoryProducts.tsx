@@ -8,6 +8,7 @@ import { Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import ProductCard from "./ProductCard";
 import ProductSkeleton from "./ProductSkeleton";
+import NoProductsAvailable from "./NoProductsAvailable";
 
 interface Props {
 	categories: Category[];
@@ -24,8 +25,7 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 		setLoading(true);
 		try {
 			const query = `*[_type == "product" && references(*[_type == "category" && slug.current == $categorySlug]._id)] | order(name asc)`;
-			const params = { categorySlug };
-			const response = await client.fetch(query, params);
+			const response = await client.fetch(query, { categorySlug });
 
 			setProducts(response);
 		} catch (error) {
@@ -41,16 +41,13 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 		}
 	}, [currentSlug]);
 
-	console.log('Current Slug:', currentSlug);
-	console.log('Products:', products);
-
 	return (
 		<div className="py-5 flex flex-col md:flex-row items-start gap-5">
 			<div className="flex flex-col md:min-w-40 border">
 				{categories.map((category) => (
 					<Button
 						key={category._id}
-						className={`bg-transparent border-0 rounded-none text-darkColor shadow-none hover:bg-darkColor/80 hover:text-white font-semibold hoverEffect border-b last:border-b-0 ${category?.slug?.current === currentSlug && "bg-darkColor text-white border-darkColor"}`}
+						className={`bg-transparent border-0 rounded-none cursor-pointer text-darkColor shadow-none hover:bg-darkColor/80 hover:text-white font-semibold hoverEffect border-b last:border-b-0 ${category?.slug?.current === currentSlug && "bg-darkColor text-white border-darkColor"}`}
 						onClick={() => setCurrentSlug(category?.slug?.current as string)}
 					>
 						{category.title}
@@ -82,7 +79,10 @@ const CategoryProducts = ({ categories, slug }: Props) => {
 								))}
 							</div>
 						) : (
-							<div className="text-center text-gray-500">No products found.</div>
+							<NoProductsAvailable
+								selectedTab={currentSlug}
+								className="mt-0 w-full"
+							/>
 						)}
 					</>
 				)}

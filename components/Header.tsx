@@ -1,23 +1,26 @@
+import Link from 'next/link';
 import { currentUser } from '@clerk/nextjs/server';
-import { ClerkLoaded, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
+import { ClerkLoaded, SignedIn, SignInButton, UserButton } from '@clerk/nextjs';
+import { getAllCategoriesQuery } from '@/sanity/helpers/queries';
+import { ListOrdered } from 'lucide-react';
 import Logo from './Logo';
 import CartIcon from './CartIcon';
 import SearchBar from './SearchBar';
 import Container from './Container';
 import HeaderMenu from './HeaderMenu';
 import MobileMenu from './MobileMenu';
-import { ListOrdered } from 'lucide-react';
-import Link from 'next/link';
+import { Category } from '@/sanity.types';
 
 const Header = async () => {
 	const user = await currentUser();
+	const categories: Category[] = await getAllCategoriesQuery();
 
 	return (
 		<header className='bg-white border-b border-b-gray-400 py-5 sticky top-0 z-50'>
 			<Container className='flex items-center justify-between gap-7 text-lightColor'>
-				<HeaderMenu />
+				<HeaderMenu categories={categories} />
 				<div className='w-auto md:w-1/3 flex items-center justify-center gap-2.5'>
-					<MobileMenu />
+					<MobileMenu categories={categories} />
 					<Logo>Tulos</Logo>
 				</div>
 				<div className='w-auto md:w-1/3 flex items-center justify-end gap-5'>
