@@ -35,7 +35,7 @@ const QuantityButtons = ({ product, className }: Props) => {
 				disabled={itemCount === 0 || isOutOfStock}
 				variant="outline"
 				size="icon"
-				className="w-6 h-6"
+				className="w-6 h-6 cursor-pointer"
 				onClick={handleRemoveProduct}
 			>
 				<Minus />
@@ -47,7 +47,7 @@ const QuantityButtons = ({ product, className }: Props) => {
 				disabled={isOutOfStock || itemCount >= (product.stock || 0)}
 				variant="outline"
 				size="icon"
-				className="w-6 h-6"
+				className="w-6 h-6 cursor-pointer"
 				onClick={handleAddProduct}
 			>
 				<Plus />
