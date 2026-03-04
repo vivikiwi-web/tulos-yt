@@ -13,6 +13,41 @@
  */
 
 // Source: schema.json
+export type Order = {
+	_id: string;
+	_type: 'order';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	orderNumber?: string;
+	invoice?: {
+		id?: string;
+		number?: string;
+		hosted_invoice_url?: string;
+	};
+	stripeCheckoutSessionId?: string;
+	stripeCustomerId?: string;
+	clerkUserId?: string;
+	customerName?: string;
+	email?: string;
+	stripePaymentIntentId?: string;
+	products?: Array<{
+		product?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'product';
+		};
+		quantity?: number;
+		_key: string;
+	}>;
+	totalPrice?: number;
+	currency?: string;
+	amountDiscount?: number;
+	status?: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
+	orderDate?: string;
+};
+
 export type Product = {
 	_id: string;
 	_type: 'product';
@@ -192,6 +227,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+	| Order
 	| Product
 	| SanityImageCrop
 	| SanityImageHotspot
@@ -207,32 +243,6 @@ export type AllSanitySchemaTypes =
 	| Geopoint;
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
-
-// Source: sanity/helpers/queries.ts
-// Variable: CATEGORIES_QUERY
-// Query: *[_type=="category"] | order(title asc)
-export type CATEGORIES_QUERY_RESULT = Array<{
-	_id: string;
-	_type: 'category';
-	_createdAt: string;
-	_updatedAt: string;
-	_rev: string;
-	title?: string;
-	slug?: Slug;
-	description?: string;
-	image?: {
-		asset?: {
-			_ref: string;
-			_type: 'reference';
-			_weak?: boolean;
-			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
-		};
-		media?: unknown;
-		hotspot?: SanityImageHotspot;
-		crop?: SanityImageCrop;
-		_type: 'image';
-	};
-}>;
 
 // Source: sanity/helpers/queries.ts
 // Variable: PRODUCT_BY_SLUG_QUERY
@@ -274,11 +284,37 @@ export type PRODUCT_BY_SLUG_QUERY_RESULT = {
 	}>;
 } | null;
 
+// Source: sanity/helpers/queries.ts
+// Variable: CATEGORIES_QUERY
+// Query: *[_type=="category"] | order(title asc)
+export type CATEGORIES_QUERY_RESULT = Array<{
+	_id: string;
+	_type: 'category';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	title?: string;
+	slug?: Slug;
+	description?: string;
+	image?: {
+		asset?: {
+			_ref: string;
+			_type: 'reference';
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+		};
+		media?: unknown;
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		_type: 'image';
+	};
+}>;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
 	interface SanityQueries {
-		'*[_type=="category"] | order(title asc)': CATEGORIES_QUERY_RESULT;
 		'*[_type=="product" && slug.current == $slug][0]': PRODUCT_BY_SLUG_QUERY_RESULT;
+		'*[_type=="category"] | order(title asc)': CATEGORIES_QUERY_RESULT;
 	}
 }
