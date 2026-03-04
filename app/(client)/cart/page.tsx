@@ -1,4 +1,13 @@
 "use client";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { createCheckoutSession } from "@/actions/createCheckoutSession";
+import { Metadata } from "@/actions/types";
+import { useAuth, useUser } from "@clerk/nextjs";
+import useCartStore from "@/store";
+import { urlFor } from "@/sanity/lib/image";
 import Container from "@/components/Container";
 import EmptyCart from "@/components/EmptyCart";
 import Loading from "@/components/Loading";
@@ -13,16 +22,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { urlFor } from "@/sanity/lib/image";
-import useCartStore from "@/store";
-import { useAuth, useUser } from "@clerk/nextjs";
 import { Heart, ShoppingBag, Trash } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import paypalLogo from "@/images/paypalLogo.png";
-import { createCheckoutSession, Metadata } from "@/actions/createCheckoutSession";
 
 const CartPage = () => {
 	const [isClient, setIsClient] = useState(false);

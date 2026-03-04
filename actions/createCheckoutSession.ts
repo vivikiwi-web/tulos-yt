@@ -3,13 +3,8 @@ import stripe from '@/lib/stripe';
 import { urlFor } from '@/sanity/lib/image';
 import { CartItem } from '@/store';
 import Stripe from 'stripe';
+import { Metadata } from './types';
 
-export interface Metadata {
-	orderNumber: string;
-	customerName: string;
-	customerEmail: string;
-	clerkUserId: string;
-}
 interface CartItems {
 	products: CartItem['product'];
 	quantity: number;
@@ -39,7 +34,7 @@ export async function createCheckoutSession(items: CartItem[], metadata: Metadat
 			cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
 			line_items: items.map(item => ({
 				price_data: {
-					currency: 'USD',
+					currency: 'EUR',
 					unit_amount: Math.round(item.product.price! * 100),
 					product_data: {
 						name: item.product.name || 'Unnamed Product',
