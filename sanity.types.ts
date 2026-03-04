@@ -310,11 +310,80 @@ export type CATEGORIES_QUERY_RESULT = Array<{
 	};
 }>;
 
+// Source: sanity/helpers/queries.ts
+// Variable: CLIENT_ORDERS_QUERY
+// Query: *[_type == 'order' && clerkUserId == $userId] | order(orderData desc){		...,products[]{			...,product->		}	}
+export type CLIENT_ORDERS_QUERY_RESULT = Array<{
+	_id: string;
+	_type: 'order';
+	_createdAt: string;
+	_updatedAt: string;
+	_rev: string;
+	orderNumber?: string;
+	invoice?: {
+		id?: string;
+		number?: string;
+		hosted_invoice_url?: string;
+	};
+	stripeCheckoutSessionId?: string;
+	stripeCustomerId?: string;
+	clerkUserId?: string;
+	customerName?: string;
+	email?: string;
+	stripePaymentIntentId?: string;
+	products: Array<{
+		product: {
+			_id: string;
+			_type: 'product';
+			_createdAt: string;
+			_updatedAt: string;
+			_rev: string;
+			name?: string;
+			slug?: Slug;
+			intro?: string;
+			description?: string;
+			price?: number;
+			discount?: number;
+			stock?: number;
+			category?: Array<{
+				_ref: string;
+				_type: 'reference';
+				_weak?: boolean;
+				_key: string;
+				[internalGroqTypeReferenceTo]?: 'category';
+			}>;
+			status?: 'hot' | 'new' | 'sale';
+			variant?: 'hoodie' | 'jacket' | 'other' | 'pants' | 'shorts' | 'tshirt';
+			images?: Array<{
+				asset?: {
+					_ref: string;
+					_type: 'reference';
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: 'sanity.imageAsset';
+				};
+				media?: unknown;
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				_type: 'image';
+				_key: string;
+			}>;
+		} | null;
+		quantity?: number;
+		_key: string;
+	}> | null;
+	totalPrice?: number;
+	currency?: string;
+	amountDiscount?: number;
+	status?: 'cancelled' | 'delivered' | 'paid' | 'pending' | 'shipped';
+	orderDate?: string;
+}>;
+
 // Query TypeMap
 import '@sanity/client';
 declare module '@sanity/client' {
 	interface SanityQueries {
 		'*[_type=="product" && slug.current == $slug][0]': PRODUCT_BY_SLUG_QUERY_RESULT;
 		'*[_type=="category"] | order(title asc)': CATEGORIES_QUERY_RESULT;
+		"*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){\n\t\t...,products[]{\n\t\t\t...,product->\n\t\t}\n\t}": CLIENT_ORDERS_QUERY_RESULT;
 	}
 }

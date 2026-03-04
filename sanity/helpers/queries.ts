@@ -36,3 +36,27 @@ export const getAllCategoriesQuery = async () => {
 		return [];
 	}
 };
+
+export const getClientOrdersQuery = async (clerkUserId: string) => {
+	if (!clerkUserId) {
+		throw new Error('Clerk user ID is required to fetch orders');
+	}
+
+	const CLIENT_ORDERS_QUERY =
+		defineQuery(`*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){
+		...,products[]{
+			...,product->
+		}
+	}`);
+
+	try {
+		const orders = await sanityFetch({
+			query: CLIENT_ORDERS_QUERY,
+			params: { userId: clerkUserId },
+		});
+		return orders.data || [];
+	} catch (error) {
+		console.error('Error fetching client orders:', error);
+		return [];
+	}
+};
