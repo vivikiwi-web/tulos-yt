@@ -24,7 +24,6 @@ interface Props {
 
 const OrderDetailsDialog: FC<Props> = ({ order, isOpen, onClose }) => {
 	if (!order) return null;
-	console.log(order);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
@@ -46,7 +45,7 @@ const OrderDetailsDialog: FC<Props> = ({ order, isOpen, onClose }) => {
 					</p>
 					<p>
 						<strong>Status:</strong>{" "}
-						<span className="capitalize text-green-600 font-medium">
+						<span className={`capitalize font-medium ${order?.status === "paid" ? "text-green-600" : "text-yellow-600"}`}>
 							{order?.status}
 						</span>
 					</p>

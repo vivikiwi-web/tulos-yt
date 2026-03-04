@@ -49,7 +49,7 @@ const OrdersComponent = ({ orders }: { orders: CLIENT_ORDERS_QUERY_RESULT }) => 
 									<TableCell>
 										{order?.status && (
 											<span
-												className={`px-2 py-1 rounded-full text-xs font-semibold ${order?.status === "paid" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
+												className={`px-2 py-1 rounded-full text-xs capitalize font-semibold ${order?.status === "paid" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}`}
 											>
 												{order?.status}
 											</span>
