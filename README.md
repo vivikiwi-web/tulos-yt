@@ -111,6 +111,24 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) to view the storefront.
 Open [http://localhost:3000/studio](http://localhost:3000/studio) to manage content.
 
+### 4. Set up Stripe webhooks (local development)
+
+Install the [Stripe CLI](https://stripe.com/docs/stripe-cli), then:
+
+```bash
+# Authenticate with your Stripe account
+npm run stripe:login
+
+# Forward webhook events to your local server
+npm run stripe:listen
+```
+
+The CLI will print a **webhook signing secret** — add it to `.env.local`:
+
+```env
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
 ---
 
 ## Scripts
@@ -123,8 +141,12 @@ Open [http://localhost:3000/studio](http://localhost:3000/studio) to manage cont
 | `npm run lint`            | Run ESLint across the project                                                   |
 | `npm run typegen`         | Extract Sanity schema and generate TypeScript types into `sanity.types.ts`      |
 | `npm run import:products` | Seed the Sanity dataset with sample products from `scripts/import-products.mjs` |
+| `npm run stripe:login`    | Authenticate the Stripe CLI with your Stripe account                            |
+| `npm run stripe:listen`   | Forward Stripe webhook events to `localhost:3000/api/webhook` (local dev)       |
 
 > **Note:** `import:products` requires `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `SANITY_API_TOKEN` to be set in `.env` or `.env.local`.
+
+> **Note:** `stripe:listen` requires the [Stripe CLI](https://stripe.com/docs/stripe-cli) to be installed. Run `stripe:login` first to authenticate.
 
 ---
 

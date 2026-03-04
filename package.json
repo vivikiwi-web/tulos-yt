@@ -8,7 +8,9 @@
 		"start": "next start",
 		"lint": "eslint",
 		"typegen": "npx sanity@latest schema extract && npx sanity@latest typegen generate",
-		"import:products": "node --env-file=.env --env-file=.env.local scripts/import-products.mjs"
+		"import:products": "node --env-file=.env --env-file=.env.local scripts/import-products.mjs",
+		"stripe:login": "stripe login",
+		"stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^6.38.3",
