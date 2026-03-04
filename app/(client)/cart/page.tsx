@@ -22,6 +22,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import paypalLogo from "@/images/paypalLogo.png";
+import { createCheckoutSession, Metadata } from "@/actions/createCheckoutSession";
 
 const CartPage = () => {
 	const [isClient, setIsClient] = useState(false);
@@ -58,6 +59,30 @@ const CartPage = () => {
 		deleteCartProduct(id);
 		toast.success("Product deleted successfully!");
 	};
+
+	const handleCheckout = async () => {
+		setLoading(true);
+		try {
+			const metadata: Metadata = {
+				orderNumber: crypto.randomUUID(),
+				customerName: user?.fullName ?? "Unknown",
+				customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+				clerkUserId: user!.id
+			}
+
+			const checkoutUrl = await createCheckoutSession(cartProducts, metadata);
+
+			// Redirect to the checkout URL
+			if (checkoutUrl) {
+				window.location.href = checkoutUrl;
+			}
+		} catch (error) {
+			toast.error("Checkout failed. Please try again.");
+			console.error("Checkout error:", error);
+		} finally {
+			setLoading(false);
+		}
+	}
 
 	return (
 		<div className="bg-gray-50 pb-52 md:pb-10">
@@ -192,6 +217,7 @@ const CartPage = () => {
 												disabled={loading}
 												className="w-full rounded-full font-semibold tracking-wide cursor-pointer"
 												size="lg"
+												onClick={handleCheckout}
 											>
 												Proceed to Checkout
 											</Button>
@@ -234,6 +260,8 @@ const CartPage = () => {
 												/>
 											</div>
 											<Button
+												disabled={loading}
+												onClick={handleCheckout}
 												className="w-full rounded-full font-semibold tracking-wide"
 												size="lg"
 											>
