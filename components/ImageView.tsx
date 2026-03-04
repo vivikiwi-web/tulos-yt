@@ -25,7 +25,7 @@ const ImageView = ({ images }: Props) => {
 					className="w-full max-h-137.5 min-h-112.5 border border-darkColor/10 rounded-md group overflow-hidden"
 				>
 					<Image
-						src={urlFor(active).url()}
+						src={active ? urlFor(active).url() : ""}
 						alt={"Product Image"}
 						width={700}
 						height={700}
