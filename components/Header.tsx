@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { currentUser } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { ClerkLoaded, SignedIn, SignInButton, UserButton } from '@clerk/nextjs';
-import { getAllCategoriesQuery } from '@/sanity/helpers/queries';
+import { getAllCategoriesQuery, getClientOrdersQuery } from '@/sanity/helpers/queries';
 import { ListOrdered } from 'lucide-react';
 import Logo from './Logo';
 import CartIcon from './CartIcon';
@@ -13,7 +13,13 @@ import { Category } from '@/sanity.types';
 
 const Header = async () => {
 	const user = await currentUser();
+	const { userId } = await auth();
 	const categories: Category[] = await getAllCategoriesQuery();
+	let order = null;
+
+	if (userId) {
+		order = await getClientOrdersQuery(userId);
+	}
 
 	return (
 		<header className='bg-white border-b border-b-gray-400 py-5 sticky top-0 z-50'>
@@ -31,7 +37,9 @@ const Header = async () => {
 						<SignedIn>
 							<Link href={'/orders'} className='group relative'>
 								<ListOrdered className='w-5 h-5 group-hover:text-darkColor hoverEffect' />
-								<span className='absolute -top-1 -right-1 bg-darkColor text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center'>0</span>
+								<span className='absolute -top-1 -right-1 bg-darkColor text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center'>
+									{order?.length ?? 0}
+								</span>
 							</Link>
 							<UserButton afterSignOutUrl='/' />
 						</SignedIn>

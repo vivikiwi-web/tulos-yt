@@ -43,9 +43,6 @@ const CartPage = () => {
 		setIsClient(true);
 	}, []);
 
-	if (!isClient) {
-		return <Loading />;
-	}
 	const cartProducts = getGroupedItems();
 
 	const handleResetCart = () => {
@@ -83,6 +80,10 @@ const CartPage = () => {
 		} finally {
 			setLoading(false);
 		}
+	}
+
+	if (!isClient) {
+		return <Loading />;
 	}
 
 	return (

@@ -11,8 +11,8 @@ import {
 } from "./ui/tooltip";
 import { format } from "date-fns";
 import PriceFormatter from "./PriceFormatter";
-
 import OrderDetailsDialog from "./OrderDetailsDialog";
+
 const OrdersComponent = ({ orders }: { orders: CLIENT_ORDERS_QUERY_RESULT }) => {
 	const [selectedOrder, setSelectedOrder] = useState<
 		CLIENT_ORDERS_QUERY_RESULT[number] | null
@@ -34,7 +34,7 @@ const OrdersComponent = ({ orders }: { orders: CLIENT_ORDERS_QUERY_RESULT }) => 
 									</TableCell>
 									<TableCell className="hidden md:table-cell">
 										{order?.orderDate &&
-											format(new Date(order.orderDate), "dd/MM/yyyy")}
+											format(new Date(order.orderDate), "yyyy-MM-dd")}
 									</TableCell>
 									<TableCell>{order?.customerName}</TableCell>
 									<TableCell className="hidden md:table-cell">

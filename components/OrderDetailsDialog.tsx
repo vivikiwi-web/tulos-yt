@@ -27,7 +27,7 @@ const OrderDetailsDialog: FC<Props> = ({ order, isOpen, onClose }) => {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent className="lg:max-w-4xl max-h-[90vh] overflow-y-scroll">
+			<DialogContent className="lg:max-w-4xl max-h-[90vh] overflow-y-scroll" aria-describedby="">
 				<DialogHeader>
 					<DialogTitle>Order Details - {order?.orderNumber}</DialogTitle>
 				</DialogHeader>

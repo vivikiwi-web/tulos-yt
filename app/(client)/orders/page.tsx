@@ -17,8 +17,6 @@ const OrdersPage = async () => {
 
 	const orders = await getClientOrdersQuery(userId!);
 
-	console.log('Fetched orders:', orders);
-
 	return (
 		<Container className="py-10">
 			{orders?.length ? (
